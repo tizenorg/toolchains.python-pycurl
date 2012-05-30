@@ -9,6 +9,7 @@ Group:          Development/Languages
 License:        LGPLv2+
 URL:            http://pycurl.sourceforge.net/
 Source0:        http://pycurl.sourceforge.net/download/pycurl-%{version}.tar.gz
+Source1001: packaging/python-pycurl.manifest 
 Patch0:		python-pycurl-no-static-libs.patch
 Patch1:		python-pycurl-lcrypto.patch
 
@@ -45,6 +46,7 @@ of features.
 chmod a-x examples/*
 
 %build
+cp %{SOURCE1001} .
 CFLAGS="$RPM_OPT_FLAGS -DHAVE_CURL_OPENSSL" %{__python} setup.py build
 
 %check
@@ -59,6 +61,7 @@ rm -rf %{buildroot}
 rm -rf %{buildroot}
 
 %files 
+%manifest python-pycurl.manifest
 %defattr(-,root,root,-)
 %doc %{_prefix}/share/doc/pycurl/*
 /%{python_sitearch}/curl/*

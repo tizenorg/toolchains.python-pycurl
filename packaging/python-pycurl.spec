@@ -8,12 +8,10 @@ Summary:        A Python interface to libcurl
 Group:          Development/Languages
 License:        LGPLv2+
 URL:            http://pycurl.sourceforge.net/
-Source0:        http://pycurl.sourceforge.net/download/pycurl-%{version}.tar.gz
+Source0:        %{name}-%{version}.tar.gz
 Source1001: packaging/python-pycurl.manifest 
 Patch0:		python-pycurl-no-static-libs.patch
 Patch1:		python-pycurl-lcrypto.patch
-
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  python-devel
 BuildRequires:  curl-devel >= 7.19.0
@@ -39,7 +37,7 @@ urllib Python module. PycURL is mature, very fast, and supports a lot
 of features.
 
 %prep
-%setup0 -q -n pycurl-%{version}
+%setup0 -q
 %patch0 -p0
 %patch1 -p1 -b .lcrypto
 

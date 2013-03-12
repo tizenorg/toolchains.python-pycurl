@@ -1,0 +1,11 @@
+diff -uNpr pycurl-7.19.0/setup.py pycurl-7.19.0-fix/setup.py
+--- pycurl-7.19.0/setup.py	2008-09-10 01:40:34.000000000 +0800
++++ pycurl-7.19.0-fix/setup.py	2009-11-16 20:35:05.000000000 +0800
+@@ -113,6 +113,7 @@ else:
+     for e in split_quoted(os.popen("'%s' --features" % CURL_CONFIG).read()):
+         if e == 'SSL':
+             define_macros.append(('HAVE_CURL_SSL', 1))
++    libraries.append("crypto")
+     if not libraries:
+         libraries.append("curl")
+     # Add extra compile flag for MacOS X

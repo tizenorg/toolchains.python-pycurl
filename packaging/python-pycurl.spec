@@ -8,17 +8,21 @@ Summary:        A Python interface to libcurl
 Group:          Development/Languages
 License:        LGPLv2+
 URL:            http://pycurl.sourceforge.net/
-Source0:        %{name}-%{version}.tar.gz
-Source1001: packaging/python-pycurl.manifest 
+Source0:        http://pycurl.sourceforge.net/download/pycurl-%{version}.tar.gz
 Patch0:		python-pycurl-no-static-libs.patch
 Patch1:		python-pycurl-lcrypto.patch
 
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
 BuildRequires:  python-devel
 BuildRequires:  curl-devel >= 7.19.0
-BuildRequires:  check-devel
-BuildRequires:  spindly-devel
-BuildRequires:  pkgconfig(openssl)
+BuildRequires:  zlib-devel
+BuildRequires:  openssl-devel
 BuildRequires:  pkgconfig(libcares)
+BuildRequires:  pkgconfig(check)
+BuildRequires:  pkgconfig(spindly)
+BuildRequires:  pkgconfig(dlog)
+BuildRequires:  pkgconfig(dbus-glib-1)
 
 # During its initialization, PycURL checks that the actual libcurl version
 # is not lower than the one used when PycURL was built.
@@ -39,14 +43,13 @@ urllib Python module. PycURL is mature, very fast, and supports a lot
 of features.
 
 %prep
-%setup0 -q
+%setup0 -q -n pycurl-%{version}
 %patch0 -p0
 %patch1 -p1 -b .lcrypto
 
 chmod a-x examples/*
 
 %build
-cp %{SOURCE1001} .
 CFLAGS="$RPM_OPT_FLAGS -DHAVE_CURL_OPENSSL" %{__python} setup.py build
 
 %check
@@ -61,7 +64,6 @@ rm -rf %{buildroot}
 rm -rf %{buildroot}
 
 %files 
-%manifest python-pycurl.manifest
 %defattr(-,root,root,-)
 %doc %{_prefix}/share/doc/pycurl/*
 /%{python_sitearch}/curl/*
